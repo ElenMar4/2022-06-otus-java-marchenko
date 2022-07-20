@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class CustomerReverseOrder {
 
-    Stack<Customer> listCustomerReverseOrder = new Stack<>();
+    private final Stack<Customer> listCustomerReverseOrder = new Stack<>();
 
     public void add(Customer customer) {
         listCustomerReverseOrder.push(customer);

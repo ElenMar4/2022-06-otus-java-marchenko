@@ -4,43 +4,23 @@ import java.util.*;
 
 public class CustomerService {
 
-    private Map<Customer, String> map = new HashMap<>();
+    private final TreeMap<Customer, String> map = new TreeMap<>(Comparator.comparingLong(Customer::getScores));
 
     public Map.Entry<Customer, String> getSmallest() {
 
-        List<Map.Entry<Customer, String>> list = new LinkedList<>(map.entrySet());
-        Map.Entry<Customer, String> minScores = list.get(0);
-        for (Map.Entry<Customer, String> entry : list) {
-            if (entry.getKey().getScores() < minScores.getKey().getScores()) {
-                minScores = entry;
-            }
-        }
-        return cloneEntry(minScores);
+        return cloneEntry(map.firstEntry());
     }
 
     public Map.Entry<Customer, String> getNext(Customer customer) {
 
-        List<Map.Entry<Customer, String>> list = new LinkedList<>(map.entrySet());
-        Map.Entry<Customer, String> nextEntryByScore = null;
-
-        boolean flag = false;
-        long min = 10_000_000_000L;
-
-        for (Map.Entry<Customer, String> entry : list) {
-            if (entry.getKey().getScores() > customer.getScores()) {
-                if ((entry.getKey().getScores() - customer.getScores()) < min) {
-                    min = entry.getKey().getScores();
-                    nextEntryByScore = entry;
-                    flag = true;
-                }
-            }
+        if (map.higherEntry(customer) == null) {
+            return null;
         }
-        if (flag) {
-            return cloneEntry(nextEntryByScore);
-        } else return null;
+        return cloneEntry(map.higherEntry(customer));
     }
 
     public void add(Customer customer, String data) {
+
         map.put(customer, data);
     }
 
