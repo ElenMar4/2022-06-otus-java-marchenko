@@ -1,0 +1,9 @@
+    Heap memory     |   before                      |   after
+----------------------------------------------------------------------------------
+-Xms256m -Xmx256m   |    Java heap space            |     spend msec:6505, sec:6
+-Xms270m -Xmx270m   |    spend msec:25955, sec:25   |
+-Xms512m -Xmx512m   |    spend msec:21662, sec:21   |     spend msec:5082, sec:5
+-Xms1024m -Xmx1024m |    spend msec:19557, sec:19   |     spend msec:4454, sec:4
+-Xms1536m -Xmx1536m |    spend msec:18466, sec:18   |   ! spend msec:4178, sec:4
+-Xms1792m -Xmx1792m |  ! spend msec:15447, sec:15   |     spend msec:4411, sec:4
+-Xms2048m -Xmx2048m |    spend msec:18147, sec:18   |     spend msec:4433, sec:4
