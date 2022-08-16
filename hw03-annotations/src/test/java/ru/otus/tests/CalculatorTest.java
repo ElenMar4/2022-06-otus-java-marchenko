@@ -1,11 +1,12 @@
-package ru.otus;
+package ru.otus.tests;
 
-import org.junit.jupiter.api.DisplayName;
-import ru.otus.Annotations.After;
-import ru.otus.Annotations.Before;
-import ru.otus.Annotations.Test;
+import ru.otus.Calculator;
+import ru.otus.testLauncher.Annotations.After;
+import ru.otus.testLauncher.Annotations.Before;
+import ru.otus.testLauncher.Annotations.Test;
+import ru.otus.testLauncher.UnitTest;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@DisplayName("____calculatorTest____")
 public class CalculatorTest implements UnitTest {
 
     Calculator calc = new Calculator();
@@ -20,25 +21,26 @@ public class CalculatorTest implements UnitTest {
     }
 
     @Test
-    public boolean calculateAddingTest(){
+    public void calculateAddingTest(){
         int sum = numberOne + numberTwo;
         System.out.println("____Test run____" + Integer.toHexString(hashCode()));
-        return sum == calc.calculateAdding(numberOne, numberTwo);
+        assertThat(sum).isEqualTo(calc.calculateAdding(numberOne, numberTwo));
     }
 
     @Test
-    public boolean calculateSubtractionTest(){
+    public void calculateSubtractionTest(){
         //int diff = numberOne - numberTwo;
         int diff = (numberOne - numberTwo) + 1;
         System.out.println("____Test run____" + Integer.toHexString(hashCode()));
-        return diff == calc.calculateSubtraction(numberOne, numberTwo);
+        assertThat(diff).isEqualTo(calc.calculateSubtraction(numberOne, numberTwo));
     }
 
     @Test
-    public boolean calculateMultiplication(){
-        int mult = numberOne * numberTwo;
+    public void calculateMultiplication(){
+//        int mult = numberOne * numberTwo;
+        int mult = numberOne * numberTwo + 1;
         System.out.println("____Test run____" + Integer.toHexString(hashCode()));
-        return mult == calc.calculateMultiplication(numberOne, numberTwo);
+        assertThat(mult).isEqualTo(calc.calculateMultiplication(numberOne, numberTwo));
     }
 
     @After
@@ -46,5 +48,4 @@ public class CalculatorTest implements UnitTest {
         calc = null;
         System.out.println("____After run____" + Integer.toHexString(hashCode()) + "\nTEST STOP");
     }
-
 }
