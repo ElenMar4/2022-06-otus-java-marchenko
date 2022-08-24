@@ -1,32 +1,38 @@
-package ru.otus;
+package ru.otus.AOP;
+
+import ru.otus.TestCalculation.TestLogging;
+import ru.otus.TestCalculation.TestLoggingInterface;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Ioc {
     private Ioc() {
     }
 
-    static TestLoggingInterface createMyLogging(Class<TestLoggingInterface> clazz, TestLogging logging) {
+    public static TestLoggingInterface createMyLogging(Class<TestLoggingInterface> clazz, TestLogging logging) {
 
-        final List<Method> methods = Arrays.stream(logging.getClass().getMethods())
-                .filter(method -> method.isAnnotationPresent(Log.class))
-                .collect(Collectors.toList());
+        final List<String> logMethods = new LinkedList<>();
+        Method[] methods1 = logging.getClass().getMethods();
 
+        for (Method temp : methods1) {
+            if (temp.isAnnotationPresent(Log.class)) {
+                logMethods.add(temp.getName() + Arrays.stream(temp.getParameters()).toList());
+            }
+        }
         return (TestLoggingInterface) Proxy.newProxyInstance(Ioc.class.getClassLoader(),
-                new Class<?>[]{clazz}, new DemoInvocationHandler(logging, methods));
+                new Class<?>[]{clazz}, new DemoInvocationHandler(logging, logMethods));
     }
 
     static class DemoInvocationHandler implements InvocationHandler {
 
         private final TestLoggingInterface logging;
-        private final List<Method> methods;
+        private final List<String> methods;
 
-        DemoInvocationHandler(TestLoggingInterface logging, List<Method> methods) {
+        DemoInvocationHandler(TestLoggingInterface logging, List<String> methods) {
             this.logging = logging;
             this.methods = methods;
         }
@@ -38,10 +44,10 @@ public class Ioc {
         }
 
         public void addStringToMethodWithAnnotationLog(Method method, Object[] args) {
-            final String methodName = method.getName();
-            final Class<?>[] parameterTypesMethod = method.getParameterTypes();
-            for (Method current : methods) {
-                if ((methodName.equals(current.getName()) && Arrays.equals(parameterTypesMethod, current.getParameterTypes()))) {
+            if (methods.contains(method.getName() + Arrays.stream(method.getParameters()).toList())) {
+                if (args == null) {
+                    System.out.println("executed method: " + method.getName() + ", no parameters");
+                } else {
                     System.out.println("executed method: " + method.getName() + ", param: " + Arrays.stream(args)
                             .map(String::valueOf)
                             .collect(Collectors.joining(", ")));
