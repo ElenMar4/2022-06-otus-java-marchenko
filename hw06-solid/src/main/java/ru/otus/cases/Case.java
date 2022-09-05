@@ -1,4 +1,4 @@
-package ru.otus.Cases;
+package ru.otus.cases;
 
 public interface Case {
 

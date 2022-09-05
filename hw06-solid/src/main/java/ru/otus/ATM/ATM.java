@@ -1,13 +1,13 @@
 package ru.otus.ATM;
 
-import ru.otus.Banknotes.Banknote;
-import ru.otus.Cases.*;
+import ru.otus.banknotes.BanknoteToNominalRuble;
+import ru.otus.cases.*;
 
 public class ATM implements StorageMoney {
 
     private final ServiceWithdrawalMoney withdrawal = new ServiceWithdrawalMoneyImpl();
 
-    public void loadATM (Banknote banknote) {
+    public void loadATM (BanknoteToNominalRuble banknote) {
         withdrawal.loadCases(banknote);
     }
 

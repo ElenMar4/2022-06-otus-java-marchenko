@@ -4,21 +4,20 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
-import ru.otus.Banknotes.Banknote;
-import ru.otus.Banknotes.NominalRuble;
+import ru.otus.banknotes.BanknoteToNominalRuble;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class ATMTest {
 
     private StorageMoney testATM = new ATM();
-    private final Banknote [] initialListBanknote = {
-            NominalRuble.FIFTY,
-            NominalRuble.ONE_HUNDRED,
-            NominalRuble.TWO_HUNDRED,
-            NominalRuble.FIVE_HUNDRED,
-            NominalRuble.ONE_THOUSAND,
-            NominalRuble.TWO_THOUSAND,
-            NominalRuble.FIVE_THOUSAND
+    private final BanknoteToNominalRuble [] initialListBanknote = {
+            BanknoteToNominalRuble.FIFTY,
+            BanknoteToNominalRuble.ONE_HUNDRED,
+            BanknoteToNominalRuble.TWO_HUNDRED,
+            BanknoteToNominalRuble.FIVE_HUNDRED,
+            BanknoteToNominalRuble.ONE_THOUSAND,
+            BanknoteToNominalRuble.TWO_THOUSAND,
+            BanknoteToNominalRuble.FIVE_THOUSAND
     };
 
     @Before
@@ -38,7 +37,7 @@ public class ATMTest {
     public void getMoney() {
         assertThat(0).isEqualTo(testATM.isBalance());
         int balance = 0;
-        for (Banknote currentBanknote : initialListBanknote){
+        for (BanknoteToNominalRuble currentBanknote : initialListBanknote){
             testATM.loadATM(currentBanknote);
             balance = balance + currentBanknote.returnNominal();
         }

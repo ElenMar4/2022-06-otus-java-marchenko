@@ -1,38 +1,37 @@
-package ru.otus.Cases;
+package ru.otus.cases;
 
-import ru.otus.Banknotes.Banknote;
-import ru.otus.Banknotes.NominalRuble;
+import ru.otus.banknotes.BanknoteToNominalRuble;
 
 import java.util.*;
 
 public class ServiceWithdrawalMoneyImpl implements ServiceWithdrawalMoney {
 
-    private final Map<NominalRuble, Case> listCases = new EnumMap<>(NominalRuble.class);
+    private final Map<BanknoteToNominalRuble, Case> listCases = new EnumMap<>(BanknoteToNominalRuble.class);
 
     public ServiceWithdrawalMoneyImpl(){
-        listCases.put(NominalRuble.FIFTY, new CaseImpl(NominalRuble.FIFTY));
-        listCases.put(NominalRuble.ONE_HUNDRED, new CaseImpl(NominalRuble.ONE_HUNDRED));
-        listCases.put(NominalRuble.TWO_HUNDRED, new CaseImpl(NominalRuble.TWO_HUNDRED));
-        listCases.put(NominalRuble.FIVE_HUNDRED, new CaseImpl(NominalRuble.FIVE_HUNDRED));
-        listCases.put(NominalRuble.ONE_THOUSAND, new CaseImpl(NominalRuble.ONE_THOUSAND));
-        listCases.put(NominalRuble.TWO_THOUSAND, new CaseImpl(NominalRuble.TWO_THOUSAND));
-        listCases.put(NominalRuble.FIVE_THOUSAND, new CaseImpl(NominalRuble.FIVE_THOUSAND));
+        listCases.put(BanknoteToNominalRuble.FIFTY, new CaseImpl(BanknoteToNominalRuble.FIFTY));
+        listCases.put(BanknoteToNominalRuble.ONE_HUNDRED, new CaseImpl(BanknoteToNominalRuble.ONE_HUNDRED));
+        listCases.put(BanknoteToNominalRuble.TWO_HUNDRED, new CaseImpl(BanknoteToNominalRuble.TWO_HUNDRED));
+        listCases.put(BanknoteToNominalRuble.FIVE_HUNDRED, new CaseImpl(BanknoteToNominalRuble.FIVE_HUNDRED));
+        listCases.put(BanknoteToNominalRuble.ONE_THOUSAND, new CaseImpl(BanknoteToNominalRuble.ONE_THOUSAND));
+        listCases.put(BanknoteToNominalRuble.TWO_THOUSAND, new CaseImpl(BanknoteToNominalRuble.TWO_THOUSAND));
+        listCases.put(BanknoteToNominalRuble.FIVE_THOUSAND, new CaseImpl(BanknoteToNominalRuble.FIVE_THOUSAND));
     }
 
     @Override
-    public void loadCases(Banknote banknote) {
+    public void loadCases(BanknoteToNominalRuble banknote) {
         listCases.get(banknote).addBanknoteInCase();
     }
 
     @Override
     public boolean cashOut(int amount) {
-        List<Banknote> listNominal = new ArrayList<>(listCases.keySet());
-        listNominal.sort(Comparator.comparing(Banknote::returnNominal).reversed());
+        List<BanknoteToNominalRuble> listNominal = new ArrayList<>(listCases.keySet());
+        listNominal.sort(Comparator.comparing(BanknoteToNominalRuble::returnNominal).reversed());
 
         if (!isCanGetMoney(amount, listNominal)) {
             return false;
         } else {
-            for (Banknote nominal : listNominal) {
+            for (BanknoteToNominalRuble nominal : listNominal) {
                 if (amount == 0) {
                     break;
                 } else {
@@ -45,7 +44,7 @@ public class ServiceWithdrawalMoneyImpl implements ServiceWithdrawalMoney {
         return true;
     }
 
-    public int makeBanknoteCounter(int amount, Banknote nominal) {
+    public int makeBanknoteCounter(int amount, BanknoteToNominalRuble nominal) {
         int countBanknotes = amount / nominal.returnNominal();
         int result = listCases.get(nominal).takeMoneyOutCase(countBanknotes);
         if (result == 0) {
@@ -53,8 +52,8 @@ public class ServiceWithdrawalMoneyImpl implements ServiceWithdrawalMoney {
         } else return amount - nominal.returnNominal() * (countBanknotes - result);
     }
 
-    public boolean isCanGetMoney(int amount, List<Banknote> list) {
-        for (Banknote currentNominal : list) {
+    public boolean isCanGetMoney(int amount, List<BanknoteToNominalRuble> list) {
+        for (BanknoteToNominalRuble currentNominal : list) {
             if (amount >= currentNominal.returnNominal()) {
                 int temp = amount / currentNominal.returnNominal();
                 int result = isHaveQuantityBanknoteInCase(listCases.get(currentNominal), temp);

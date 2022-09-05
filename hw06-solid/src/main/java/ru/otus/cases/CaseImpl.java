@@ -1,14 +1,14 @@
-package ru.otus.Cases;
+package ru.otus.cases;
 
-import ru.otus.Banknotes.Banknote;
+import ru.otus.banknotes.BanknoteToNominalRuble;
 
 public class CaseImpl implements Case {
 
 //    private static final int CAPACITY_CASE = 10;
     private int quantityBanknote;
-    private final Banknote banknote;
+    private final BanknoteToNominalRuble banknote;
 
-    public CaseImpl(Banknote banknote){
+    public CaseImpl(BanknoteToNominalRuble banknote){
         this.banknote = banknote;
 //        this.quantityBanknote = CAPACITY_CASE;
     }

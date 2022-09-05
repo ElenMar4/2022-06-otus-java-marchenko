@@ -1,10 +1,10 @@
 package ru.otus.ATM;
 
-import ru.otus.Banknotes.Banknote;
+import ru.otus.banknotes.BanknoteToNominalRuble;
 
 public interface StorageMoney {
 
-    void loadATM (Banknote banknote);
+    void loadATM (BanknoteToNominalRuble banknote);
     void getMoney(int count);
     int isBalance();
     void sheetBalanceOfATM ();

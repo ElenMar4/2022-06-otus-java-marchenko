@@ -1,6 +1,6 @@
-package ru.otus.Banknotes;
+package ru.otus.banknotes;
 
-public enum NominalRuble implements Banknote{
+public enum BanknoteToNominalRuble {
     FIFTY(50),
     ONE_HUNDRED(100),
     TWO_HUNDRED(200),
@@ -11,7 +11,7 @@ public enum NominalRuble implements Banknote{
 
     private final int value;
 
-    NominalRuble (int value){
+    BanknoteToNominalRuble(int value){
         this.value = value;
     }
 
