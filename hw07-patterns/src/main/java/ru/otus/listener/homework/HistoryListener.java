@@ -3,22 +3,22 @@ package ru.otus.listener.homework;
 import ru.otus.listener.Listener;
 import ru.otus.model.Message;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalTime;
+import java.util.*;
 
 public class HistoryListener implements Listener, HistoryReader {
 
-    private final List<Message> messagesList;
+    private final Map<LocalTime, Message> messagesList;
 
     public HistoryListener() {
-        this.messagesList = new ArrayList<>();
+
+        this.messagesList = new HashMap<>();
     }
 
     @Override
     public void onUpdated(Message msg) throws CloneNotSupportedException{
         try {
-            messagesList.add(msg.clone());
+            messagesList.put(LocalTime.now(), msg.clone());
         } catch (Exception e){
             throw new CloneNotSupportedException();
         }
@@ -27,7 +27,7 @@ public class HistoryListener implements Listener, HistoryReader {
 
     @Override
     public Optional<Message> findMessageById(long id) {
-        return messagesList.stream()
+        return messagesList.values().stream()
                 .filter(message -> (new Message.Builder(id).build()).equals(message))
                 .findAny();
     }
