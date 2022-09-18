@@ -21,11 +21,9 @@ public class FileSerializer implements Serializer {
     public void serialize(Map<String, Double> data) throws IOException {
         File file = new File(fileName);
         Gson gson = new Gson();
-        try (PrintWriter pw = new PrintWriter(new FileWriter(file))){
+        PrintWriter pw = new PrintWriter(new FileWriter(file));
             String strJson = gson.toJson(data);
             pw.write(strJson);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+            pw.close();
     }
 }

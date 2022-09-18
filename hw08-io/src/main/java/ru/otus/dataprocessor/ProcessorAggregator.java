@@ -10,7 +10,7 @@ public class ProcessorAggregator implements Processor {
     //группирует выходящий список по name, при этом суммирует поля value
     @Override
     public Map<String, Double> process(List<Measurement> data) {
-        data.sort(Comparator.comparing(Measurement::getName));
-        return data.stream().collect(Collectors.toMap(Measurement::getName, Measurement::getValue, Double::sum, LinkedHashMap::new));
+        return data.stream()
+                .collect(Collectors.groupingBy(Measurement::getName,TreeMap::new, Collectors.summingDouble(Measurement::getValue)));
     }
 }
